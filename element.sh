@@ -15,26 +15,35 @@ else
 	then
 
 		# Get element name
-		ELEMENT_NAME=$($PSQL "select name from elements where atomic_number=$1;")
+		NAME=$($PSQL "select name from elements where atomic_number=$1;")
 	
 	else
 
 		# Get element name
-		ELEMENT_NAME=$($PSQL "select name from elements where name='$1' or symbol='$1';")
+		NAME=$($PSQL "select name from elements where name='$1' or symbol='$1';")
 	
 	fi
 
-	# ATOMIC_NUMBER=$($PSQL "select atomic_number from elements where name='$1' or symbol='$1';")
 
 	# Check if element exists
-	if [[ -z $ELEMENT_NAME ]]
+	if [[ -z $NAME ]]
 	then
 		
 		echo "I could not find that element in the database."
 
 	else
 
-		echo "Found"
+		NAME_FORMATTED=$(echo $NAME | sed 's/ |/"/')
+
+		# Get atomic number, symbol
+		ATOMIC_NUMBER=$($PSQL "select atomic_number from elements where name='$NAME_FORMATTED';")
+		SYMBOL=$($PSQL "select symbol from elements where name='$NAME_FORMATTED';")
+
+		# Format 
+		ATOMIC_NUMBER_FORMATTED=$(echo $ATOMIC_NUMBER | sed 's/ |/"/')
+		SYMBOL_FORMATTED=$(echo $SYMBOL | sed 's/ |/"/')
+
+		echo "The element with atomic number $ATOMIC_NUMBER_FORMATTED is $NAME_FORMATTED ($SYMBOL_FORMATTED). It's a nonmetal, with a mass of 1.008 amu. Hydrogen has a melting point of -259.1 celsius and a boiling point of -252.9 celsius."
 
 	fi
 
