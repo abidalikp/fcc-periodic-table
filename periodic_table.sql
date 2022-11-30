@@ -95,7 +95,6 @@ INSERT INTO public.elements VALUES (5, 'B', 'Boron');
 INSERT INTO public.elements VALUES (6, 'C', 'Carbon');
 INSERT INTO public.elements VALUES (7, 'N', 'Nitrogen');
 INSERT INTO public.elements VALUES (8, 'O', 'Oxygen');
-INSERT INTO public.elements VALUES (1000, 'MT', 'moTanium');
 INSERT INTO public.elements VALUES (9, 'F', 'Fluorine');
 INSERT INTO public.elements VALUES (10, 'Ne', 'Neon');
 
@@ -106,7 +105,6 @@ INSERT INTO public.elements VALUES (10, 'Ne', 'Neon');
 
 INSERT INTO public.properties VALUES (4, 9.0122, 1287, 2470, 1);
 INSERT INTO public.properties VALUES (3, 6.94, 180.54, 1342, 1);
-INSERT INTO public.properties VALUES (1000, 1, 10, 100, 2);
 INSERT INTO public.properties VALUES (5, 10.81, 2075, 4000, 2);
 INSERT INTO public.properties VALUES (8, 15.999, -218, -183, 3);
 INSERT INTO public.properties VALUES (7, 14.007, -210.1, -195.8, 3);
