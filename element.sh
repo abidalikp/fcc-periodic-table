@@ -36,16 +36,21 @@ else
 		NAME_FORMATTED=$(echo $NAME | sed 's/ |/"/')
 
 		# Get atomic number, symbol
-		ATOMIC_NUMBER=$($PSQL "select atomic_number from elements where name='$NAME_FORMATTED';")
-		SYMBOL=$($PSQL "select symbol from elements where name='$NAME_FORMATTED';")
+		read ATOMIC_NUMBER BAR SYMBOL <<< $($PSQL "select atomic_number, symbol from elements where name='$NAME_FORMATTED';") 
 
 		# Format 
 		ATOMIC_NUMBER_FORMATTED=$(echo $ATOMIC_NUMBER | sed 's/ |/"/')
 		SYMBOL_FORMATTED=$(echo $SYMBOL | sed 's/ |/"/')
 
-		echo "The element with atomic number $ATOMIC_NUMBER_FORMATTED is $NAME_FORMATTED ($SYMBOL_FORMATTED). It's a nonmetal, with a mass of 1.008 amu. Hydrogen has a melting point of -259.1 celsius and a boiling point of -252.9 celsius."
+		# Get atomic mass, melting point, boiling point and type id 
+		read MASS BAR MELTING_POINT BAR BOILING_POINT BAR TYPE_ID <<< $($PSQL "select atomic_mass, melting_point_celsius, boiling_point_celsius, type_id
+		 from properties where atomic_number = $ATOMIC_NUMBER_FORMATTED;" )
+
+		# Get type
+		read TYPE <<< $($PSQL "select type from types where type_id=$TYPE_ID")		
+
+		echo "The element with atomic number $ATOMIC_NUMBER_FORMATTED is $NAME_FORMATTED ($SYMBOL_FORMATTED). It's a $TYPE, with a mass of $MASS amu. $NAME_FORMATTED has a melting point of $MELTING_POINT celsius and a boiling point of $BOILING_POINT celsius."
 
 	fi
-
 	
 fi
